@@ -4,13 +4,7 @@ import subprocess
 import random
 import csv
 
-# Direct import of specific functions
-import imp
-makeChunks = imp.load_source("makeChunks", "miner/git.repo.miner.py")
-getPythonCount = imp.load_source("getPythonCount", "miner/git.repo.miner.py")
-cloneRepo = imp.load_source("cloneRepo", "miner/git.repo.miner.py")
-
-from mining.mining import getPythonFileCount, days_between
+from mining.mining import getPythonFileCount, days_between, cloneRepo, checkPythonFile
 
 def write_bug_to_csv(func_name, bug_info):
     with open('fuzz_report.csv', mode='a', newline='') as file:
@@ -37,33 +31,28 @@ def fuzz_functions():
         print(f"Bug found in getPythonFileCount function: {e}")
         write_bug_to_csv('getPythonFileCount', str(e))
 
-    # Fuzz makeChunks function
-    sample_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    chunk_size = random.randint(1, len(sample_list))
-    try:
-        result = list(makeChunks(sample_list, chunk_size))
-        print(f"Fuzzing makeChunks with list: {sample_list}, chunk size: {chunk_size}. Result: {result}")
-    except Exception as e:
-        print(f"Bug found in makeChunks function: {e}")
-        write_bug_to_csv('makeChunks', str(e))
-
-    # Fuzz getPythonCount function
-    try:
-        result = getPythonCount(path)
-        print(f"Fuzzing getPythonCount with path: {path}. Result: {result}")
-    except Exception as e:
-        print(f"Bug found in getPythonCount function: {e}")
-        write_bug_to_csv('getPythonCount', str(e))
-
     # Fuzz cloneRepo function
-    repo_name = "https://github.com/example/example_repo.git"  # Example repo URL
-    target_dir = "cloned_repo"  # Example target directory
+    repo_name = "https://github.com/example/example_repo.git"  # Your repository URL
+    target_dir = "repo_clone"  # Target directory to clone the repository
     try:
         cloneRepo(repo_name, target_dir)
-        print(f"Fuzzing cloneRepo with repo name: {repo_name}, target directory: {target_dir}.")
+        print(f"Cloning repository {repo_name} to {target_dir}...")
     except Exception as e:
         print(f"Bug found in cloneRepo function: {e}")
         write_bug_to_csv('cloneRepo', str(e))
+
+    # Fuzz checkPythonFile function
+    path2dir = "."  # Path to the directory to check Python files
+    try:
+        result = checkPythonFile(path2dir)
+        print(f"Fuzzing checkPythonFile with path: {path2dir}. Result: {result}")
+    except Exception as e:
+        print(f"Bug found in checkPythonFile function: {e}")
+        write_bug_to_csv('checkPythonFile', str(e))
+
+def makeChunks(the_list, size_):
+    for i in range(0, len(the_list), size_):
+        yield the_list[i:i+size_]
 
 if __name__ == "__main__":
     fuzz_functions()
