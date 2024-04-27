@@ -50,7 +50,7 @@ def checkPythonFile(path2dir):
     patternDict = ['sklearn', 'h5py', 'gym', 'rl', 'tensorflow', 'keras', 'tf', 'stable_baselines', 'tensorforce', 'rl_coach', 'pyqlearning', 'MAMEToolkit', 'chainer', 'torch', 'chainerrl']
     for root_, dirnames, filenames in os.walk(path2dir):
         for file_ in filenames:
-            full_path_file = os.path.join(root_, file_) 
+            full_path_file = os.path.join(root_, file_)  
             if(os.path.exists(full_path_file)):
                 if ((file_.endswith('py')) or (file_.endswith('ipynb')))  :
                     f = open(full_path_file, 'r', encoding='latin-1')
@@ -58,7 +58,7 @@ def checkPythonFile(path2dir):
                     pythonFileContent = pythonFileContent.split('\n') 
                     pythonFileContent = [z_.lower() for z_ in pythonFileContent if z_!='\n' ]
                     for content_ in pythonFileContent:
-                        for item_ in patternDict:
+                        for item_ in patternDict: 
                             if(item_ in content_):
                                 usageCount = usageCount + 1
                                 print('item_->->->',  content_)                    
@@ -68,7 +68,8 @@ def checkPythonFile(path2dir):
 def days_between(d1_, d2_): ## pass in date time objects, if string see commented code 
     # d1_ = datetime.strptime(d1_, "%Y-%m-%d")
     # d2_ = datetime.strptime(d2_, "%Y-%m-%d")
-    return abs((d2_ - d1_).days)
+    days_calc = (d2_ - d1_).days
+    return abs(days_calc)
     
     
 def getDevEmailForCommit(repo_path_param, hash_):
@@ -130,12 +131,12 @@ def getDevDayCount(full_path_to_repo, branchName='master', explore=1000):
             
   
 def getPythonFileCount(path2dir):
-    valid_list = [] 
+    valid_file_list = [] 
     for _, _, filenames in os.walk(path2dir):
         for file_ in filenames:
             if ((file_.endswith('py')) or (file_.endswith('ipynb'))):
-                valid_list.append(file_)
-    return len(valid_list)   
+                valid_file_list.append(file_)
+    return len(valid_file_list)   
     
     
 
@@ -146,7 +147,7 @@ def cloneRepos(repo_list, dev_threshold=3, python_threshold=0.10, commit_thresho
     for repo_batch in repo_list:
         for repo_ in repo_batch:
             counter += 1 
-            print('Cloning ', repo_ )
+            print('Cloning ', repo_, counter )
             dirName = '../FSE2021_REPOS/' + repo_.split('/')[-2] + '@' + repo_.split('/')[-1] ## '/' at the end messes up the index 
             cloneRepo(repo_, dirName )
             ### get all count 
@@ -199,6 +200,7 @@ if __name__=='__main__':
     t1 = time.time()
     print('Started at:', giveTimeStamp() )
     print('*'*100 )
+    print("Yay starting....")
 
     
     print('Repos to download:', len(list_)) 
