@@ -4,7 +4,12 @@ import subprocess
 import random
 import csv
 
-from mining.git.repo.miner import makeChunks, getPythonCount, cloneRepo
+# Direct import of specific functions
+import imp
+makeChunks = imp.load_source("makeChunks", "miner/git.repo.miner.py")
+getPythonCount = imp.load_source("getPythonCount", "miner/git.repo.miner.py")
+cloneRepo = imp.load_source("cloneRepo", "miner/git.repo.miner.py")
+
 from mining.mining import getPythonFileCount, days_between
 
 def write_bug_to_csv(func_name, bug_info):
