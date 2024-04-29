@@ -2,11 +2,7 @@
 
 ## Activities
 
-1. **Code Modification**: Modified the existing Python script to report any bugs found during the fuzzing process to a CSV file called `fuzz_report.csv`.
-   
-2. **Error Handling**: Implemented error handling using `try-except` blocks to catch exceptions that occur during the fuzzing of each function.
-
-3. **CSV File Writing**: Incorporated the `csv` module to handle writing bug information to the CSV file.
+In this project we implement a git hook to check the python files before commiting. In this I used the bandit library to check for things like white space and syntax errors. From here I implemented a file to fuzztest several functions of my own choosing. I also added in for both checks to create error reports on csv files. 
 
 ## Lessons Learned
 
